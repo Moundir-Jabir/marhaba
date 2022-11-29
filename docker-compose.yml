@@ -1,0 +1,37 @@
+version: '3'
+services:
+  api:
+    build: ./backend
+    container_name: api
+    ports:
+     - "4000:4000"
+    volumes:
+     - "./backend/:/app"
+    networks: 
+     - marhaba-network
+  web:
+    build: ./frontend
+    container_name: web
+    ports:
+     - "3000:3000"
+    volumes:
+     - "./frontend/:/app"
+    networks: 
+     - marhaba-network
+  mongo:
+    image: mongo
+    ports:
+     - "27017:27017"
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: moundir
+      MONGO_INITDB_ROOT_PASSWORD: moundir
+    volumes:
+     - db-data:/data/db
+    networks: 
+     - marhaba-network
+volumes:
+  db-data: {}
+networks:
+  marhaba-network:
+    driver: bridge
